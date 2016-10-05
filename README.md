@@ -12,11 +12,11 @@ See `iron-iconset` for more information about how to use a custom icon set.
 
 There are four ways to show the paper-fab-button: `vertical`, `vertical reversed`, `horizontal`, `horizontal reversed`.
 
-[Live Example](http://spacee.xyz/paper-fab-menu/demo.html)
+[Live Example](https://jay8t6.github.io/paper-fab-menu/)
 
 ##Installing with Bower
 
-To install the component with the Bower, just run: 
+To install the component with the Bower, just run:
 
 `bower install --save paperfabmenu`
 
@@ -52,5 +52,3 @@ The following properties are available for styling:
 | `color` | The background color of the paper menu item | `--accent-color` |
 | `label` | The tooltip label of the paper menu item | `''` |
 | `tooltip-position` | The position of the tooltip | `left` |
-
-
