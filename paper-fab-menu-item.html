@@ -21,7 +21,7 @@
       }
     </style>
     <div class="menu-item">
-      <paper-fab id="paperFab" mini icon="{{icon}}"></paper-fab>
+      <paper-fab data-value="[[label]]" on-click="_fireClick" disabled="[[disabled]]" id="paperFab" mini icon="{{icon}}"></paper-fab>
       <paper-tooltip offset="0" margin-top="0" position="{{tooltipPosition}}">{{label}}</paper-tooltip>
     </div>
   </template>
@@ -34,11 +34,21 @@
             type: String,
             value: 'left'
           },
+          disabled: {
+            type: Boolean,
+            value: false
+          },
           label: String,
           icon: String
         },
         ready: function() {
           if(this.color) this.$.paperFab.style.backgroundColor = this.color;
+        },
+        _fireClick: function(e, detail) {
+          var clickedItem = Polymer.dom(e).localTarget;
+          var parent = Polymer.dom(clickedItem).parentNode;
+          var tooltip = parent.querySelector('#tooltip');
+          this.fire('fab-click', {clicked: tooltip.innerText.trim()});
         }
       });
   </script>
