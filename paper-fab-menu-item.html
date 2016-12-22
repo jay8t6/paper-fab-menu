@@ -11,17 +11,19 @@
         position: relative;
       }
 
-      :host {
-        flex: 1;
-        margin: 7px;
-      }
-
       :host .menu-item paper-fab ::content iron-icon {
         transform: rotate(0deg) !important;
       }
 
       :host .menu-item {
         transform: scale(0);
+      }
+
+      :host paper-fab[mini] {
+        --paper-fab-mini: {
+          margin: 7px;
+          @apply(--paper-fab-icon-mini);
+        };
       }
     </style>
     <div class="menu-item">
