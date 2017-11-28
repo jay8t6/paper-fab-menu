@@ -1,4 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+
 <!--
 
 @demo demo/index.html
@@ -6,30 +9,24 @@
 -->
 <dom-module id="paper-fab-menu-item">
   <template>
-    <style is="custom-style">
-      :host .menu-item {
+    <style>
+      :host {
+        display: block;
         position: relative;
       }
-
-      :host .menu-item paper-fab ::content iron-icon {
+      :host paper-fab ::slotted(iron-icon) {
         transform: rotate(0deg) !important;
       }
-
-      :host .menu-item {
-        transform: scale(0);
-      }
-
       :host paper-fab[mini] {
         --paper-fab-mini: {
           margin: 7px;
-          @apply(--paper-fab-icon-mini);
+          @apply --paper-fab-icon-mini;
         };
       }
     </style>
-    <div class="menu-item">
-      <paper-fab id="[[id]]" data-value="[[label]]" on-click="_fireClick" disabled="[[disabled]]" mini icon="{{icon}}"></paper-fab>
-      <paper-tooltip offset="0" margin-top="0" position="{{tooltipPosition}}">{{label}}</paper-tooltip>
-    </div>
+
+    <paper-fab id="[[id]]" data-value="[[label]]" on-click="_fireClick" disabled="[[disabled]]" mini icon="{{icon}}"></paper-fab>
+    <paper-tooltip offset="0" margin-top="0" position="{{tooltipPosition}}">{{label}}</paper-tooltip>
   </template>
   <script>
       Polymer({
@@ -48,8 +45,10 @@
           id: String,
           icon: String
         },
-        ready: function() {
-          if(this.color) this.$$('#' + this.id).style.backgroundColor = this.color;
+        attached: function() {
+          if(this.color) {
+            this.$$('#' + this.id).style.backgroundColor = this.color;
+          }
         },
         _fireClick: function(e, detail) {
           var clickedItem = Polymer.dom(e).localTarget.id;

@@ -1,3 +1,9 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="paper-fab-menu-item.html">
 
 <!--
 @author Arshak Khachatrian (<a href="mailto:akhxtern@gmail.com">akhxtern@gmail.com</a>)
@@ -37,177 +43,155 @@
 @demo demo/index.html
 
 -->
-
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../paper-fab/paper-fab.html">
-<link rel="import" href="../paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="paper-fab-menu-item.html">
-
 <dom-module id="paper-fab-menu">
-  <style>
-    :host([position="vertical"]) .menu-fab-button {
-      padding-top: 7px;
-    }
-    :host([position="vertical reversed"]) .menu-fab-button {
-      padding-bottom: 7px;
-    }
-    :host([position="horizontal"]) .menu-fab-button {
-      padding-left: 7px;
-    }
-    :host([position="horizontal reversed"]) .menu-fab-button {
-      padding-right: 7px;
-    }
-    :host-context([dir="rtl"]) :host([position="horizontal"]) .menu-fab-button,
-    :host-context([dir="rtl"])[position="horizontal"] .menu-fab-button, /* Polymer workaround */
-    :host([dir="rtl"][position="horizontal"]) .menu-fab-button {
-      padding-left: 0;
-      padding-right: 7px;
-    }
-    :host-context([dir="rtl"]) :host([position="horizontal reversed"]) .menu-fab-button,
-    :host-context([dir="rtl"])[position="horizontal reversed"] .menu-fab-button, /* Polymer workaround */
-    :host([dir="rtl"][position="horizontal reversed"]) .menu-fab-button {
-      padding-right: 0;
-      padding-left: 7px;
-    }
-
-    :host .menu-items ::content a {
-      display: block;
-      margin: 7px;
-    }
-
-    :host .menu-items ::content a > paper-fab-menu-item {
-      margin: 0;
-    }
-
-    :host paper-fab ::content iron-icon {
-      transition: 200ms all;
-    }
-
-    :host .menu-fab-button[open] paper-fab ::content iron-icon {
-      transform: rotate(45deg);
-      @apply(--paper-fab-menu-rollover);
-    }
-
-    :host #mainItems {
-      overflow: visible;
-    }
-
-    :host .menu-items {
-      order: 1;
-      /* This prevents the browser window's scroll bar to sometimes appear
-       * when the menu is closed.
-       */
-      overflow: hidden;
-    }
-
-    :host .menu-fab-button {
-      order: 2;
-    }
-
-    :host .menu-items[open] ::content .menu-item {
-      transform: scale(1);
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(1) .menu-item, :host .menu-items ::content a:nth-child(1) .menu-item {
-      transition-delay: 250ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(2) .menu-item, :host .menu-items ::content a:nth-child(2) .menu-item {
-      transition-delay: 200ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(3) .menu-item, :host .menu-items ::content a:nth-child(3) .menu-item {
-      transition-delay: 150ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(4) .menu-item, :host .menu-items ::content a:nth-child(4) .menu-item {
-      transition-delay: 100ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(5) .menu-item, :host .menu-items ::content a:nth-child(5) .menu-item {
-      transition-delay: 50ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item:nth-child(6) .menu-item, :host .menu-items ::content a:nth-child(6) .menu-item {
-      transition-delay: 0ms;
-    }
-
-    :host .menu-items ::content paper-fab-menu-item .menu-item, :host .menu-items ::content a .menu-item {
-       transition: 100ms all;
-    }
-
-    /*REVERSED-STYLE-START*/
-
-    :host .menu-items.reversed {
-      order: 3;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(1) .menu-item, :host .menu-items.reversed ::content a:nth-child(1) .menu-item {
-      transition-delay: 0ms;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(2) .menu-item, :host .menu-items.reversed ::content a:nth-child(2) .menu-item {
-      transition-delay: 50ms;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(3) .menu-item, :host .menu-items.reversed ::content a:nth-child(3) .menu-item {
-      transition-delay: 100ms;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(4) .menu-item, :host .menu-items.reversed ::content a:nth-child(4) .menu-item {
-      transition-delay: 150ms;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(5) .menu-item, :host .menu-items.reversed ::content a:nth-child(5) .menu-item {
-      transition-delay: 200ms;
-    }
-
-    :host .menu-items.reversed ::content paper-fab-menu-item:nth-child(6) .menu-item, :host .menu-items.reversed ::content a:nth-child(6) .menu-item {
-      transition-delay: 250ms;
-    }
-
-    /*REVERSED-STYLE-END*/
-
-    :host paper-fab {
-      transform: scale(0);
-      animation: 300ms scale 300ms 1 forwards alternate cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    :host .menu-items:not([open]) {
-      animation: 0s delayed-disappearance 300ms 1 forwards;
-    }
-
-    @keyframes scale {
-      0% {
-        transform        : scale(0);
-        -webkit-transform: scale(0);
-      }
-      100% {
-        transform        : scale(1.0);
-        -webkit-transform: scale(1.0);
-      }
-    }
-
-    @keyframes delayed-disappearance {
-      from {
-        height: auto;
-        width: auto;
-      }
-      to   {
-        height: 0;
-        width: 0;
-      }
-    }
-  </style>
   <template>
+    <style include="iron-flex iron-flex-alignment">
+      :host {
+        /*position: relative;*/
+      }
+      :host([position="vertical"]) .menu-fab-button {
+        padding-top: 7px;
+      }
+      :host([position="vertical reversed"]) .menu-fab-button {
+        padding-bottom: 7px;
+      }
+      :host([position="horizontal"]) .menu-fab-button {
+        padding-left: 7px;
+      }
+      :host([position="horizontal reversed"]) .menu-fab-button {
+        padding-right: 7px;
+      }
+      :dir(rtl) :host([position="horizontal"]) .menu-fab-button,
+      :dir(rtl)[position="horizontal"] .menu-fab-button, /* Polymer workaround */
+      :dir(rtl)[position="horizontal"] .menu-fab-button {
+        padding-left: 0;
+        padding-right: 7px;
+      }
+      :dir(rtl) :host([position="horizontal reversed"]) .menu-fab-button,
+      :dir(rtl)[position="horizontal reversed"] .menu-fab-button, /* Polymer workaround */
+      :host([dir="rtl"][position="horizontal reversed"]) .menu-fab-button {
+        padding-right: 0;
+        padding-left: 7px;
+      }
+
+      .menu-items ::slotted(a) {
+        display: block;
+        margin: 7px;
+      }
+      .menu-items ::slotted(a > paper-fab-menu-item) {
+        margin: 0;
+      }
+      paper-fab ::slotted(iron-icon) {
+        transition: 200ms all;
+      }
+      .menu-fab-button[open] #paperFab {
+        --paper-fab-iron-icon: {
+          transform: rotate(45deg) !important;
+        };
+        @apply --paper-fab-menu-rollover;
+      }
+
+      .menu-items {
+        /*position: absolute;*/
+        overflow: visible;
+        z-index: 1;
+      }
+      .menu-items:not([open]) ::slotted(*) {
+        transform: scale(0);
+      }
+      .menu-items ::slotted(*) {
+         transition: 100ms all;
+      }
+
+      .menu-items ::slotted(*:nth-child(1)) {
+        transition-delay: 250ms;
+      }
+      .menu-items ::slotted(*:nth-child(2)) {
+        transition-delay: 200ms;
+      }
+      .menu-items ::slotted(*:nth-child(3)) {
+        transition-delay: 150ms;
+      }
+      .menu-items ::slotted(*:nth-child(4)) {
+        transition-delay: 100ms;
+      }
+      .menu-items ::slotted(*:nth-child(5)) {
+        transition-delay: 50ms;
+      }
+      .menu-items ::slotted(*:nth-child(6)) {
+        transition-delay: 0ms;
+      }
+
+      /*REVERSED-STYLE-START*/
+      .menu-items.reversed ::slotted(*:nth-child(1)) {
+        transition-delay: 0ms;
+      }
+      .menu-items.reversed ::slotted(*:nth-child(2)) {
+        transition-delay: 50ms;
+      }
+      .menu-items.reversed ::slotted(*:nth-child(3)) {
+        transition-delay: 100ms;
+      }
+      .menu-items.reversed ::slotted(*:nth-child(4)) {
+        transition-delay: 150ms;
+      }
+      .menu-items.reversed ::slotted(*:nth-child(5)) {
+        transition-delay: 200ms;
+      }
+      .menu-items.reversed ::slotted(*:nth-child(6)) {
+        transition-delay: 250ms;
+      }
+      /*REVERSED-STYLE-END*/
+
+      paper-fab {
+        transform: scale(0);
+        animation: 300ms scale 300ms 1 forwards alternate cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+      .menu-items:not([open]) {
+        animation: 0s delayed-disappearance 300ms 1 forwards;
+      }
+
+      /* This is a workaround to preserve logic structure for minimal breaking changes */
+      .layout.horizontal.reversed {
+        -ms-flex-direction: row-reverse;
+        -webkit-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+      }
+      .layout.vertical.reversed {
+        -ms-flex-direction: column-reverse;
+        -webkit-flex-direction: column-reverse;
+        flex-direction: column-reverse;
+      }
+      /* end hack */
+
+      @keyframes scale {
+        0% {
+          transform        : scale(0);
+          -webkit-transform: scale(0);
+        }
+        100% {
+          transform        : scale(1.0);
+          -webkit-transform: scale(1.0);
+        }
+      }
+      @keyframes delayed-disappearance {
+        from {
+          height: auto;
+          width: auto;
+        }
+        to   {
+          height: 0;
+          width: 0;
+        }
+      }
+    </style>
+
     <div class$="layout {{position}}">
       <div open$="{{show}}" id="mainFab" class="menu-fab-button layout vertical self-center">
-          <paper-fab id="paperFab" icon="{{icon}}"></paper-fab>
+        <paper-fab id="paperFab" icon="{{icon}}"></paper-fab>
       </div>
       <div open$="{{show}}" id="mainItems" class$="menu-items flex layout {{position}} self-center">
-          <content select="a, paper-fab-menu-item"></content>
+        <slot></slot>
       </div>
     </div>
   </template>
@@ -217,24 +201,37 @@
         properties: {
           /* ALLOWED: 'vertical', 'horizontal', 'vertical reversed', 'horizontal reversed' */
           position: {
-            value: 'vertical'
+            type: String,
+            value: 'vertical',
+            reflectToAttribute: true
           },
           show: {
+            type: Boolean,
             value: false
           },
           /* any color you would like to be a main paper-fab */
-          color: {
-            type: String
-          }
-        },
-        listeners: {
-          'mainFab.mouseover': 'open',
-          'mainFab.mouseout': 'close',
-          'mainItems.mouseover': 'open',
-          'mainItems.mouseout': 'close'
+          color: String,
+          icon: String,
         },
         ready: function() {
-          if(this.color) this.$.paperFab.style.backgroundColor = this.color;
+          this.open = this.open.bind(this);
+          this.close = this.close.bind(this);
+        },
+        attached: function() {
+          if(this.color) {
+            this.$.paperFab.style.backgroundColor = this.color;
+          }
+
+          this.$.paperFab.addEventListener('mouseover', this.open);
+          this.$.mainItems.addEventListener('mouseover', this.open);
+          this.$.paperFab.addEventListener('mouseout', this.close);
+          this.$.mainItems.addEventListener('mouseout', this.close);
+        },
+        detached: function() {
+          this.$.mainFab.removeEventListener('mouseover', this.open);
+          this.$.mainItems.removeEventListener('mouseover', this.open);
+          this.$.mainFab.removeEventListener('mouseout', this.close);
+          this.$.mainItems.removeEventListener('mouseout', this.close);
         },
         open: function() {
           this.show = true;
