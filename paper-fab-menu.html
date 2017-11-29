@@ -86,7 +86,7 @@
       }
       .menu-fab-button[open] #paperFab {
         --paper-fab-iron-icon: {
-          transform: rotate(45deg) !important;
+          transform: var(--paper-fab-menu-icon-transform, rotate(45deg));
         };
         @apply --paper-fab-menu-rollover;
       }
